@@ -1,30 +1,30 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
+import java.io.*;
+import java.util.*;
 public class Main {
     public static void main(String[] args) {
-        String input=getInput();
-        String[] in=input.split(" ");
-        try{
-            int a=Integer.parseInt(in[0]);
-            int b=Integer.parseInt(in[1]);
-            System.out.println(a+b);
-        }catch (NumberFormatException|ArrayIndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-    }
+        int count = 0;
+        String J, S = null;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+            J = reader.readLine();
+            S = reader.readLine();
+            Set<Character> jSet=new HashSet<>();
+            for(char cj:J.toCharArray()){
+                jSet.add(cj);
+            }
 
-    public static String getInput(){
-        String input = null;
-        System.out.print("enter two numbers split by space");
-        BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
-        try{
-            input= reader.readLine();
-        }
-        catch (IOException e){
+
+            for (char cj : jSet) {
+                for (char cs : S.toCharArray()) {
+                    if (cj == cs) {
+
+                        count++;
+                    }
+                }
+            }
+            System.out.println(count);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return input;
     }
 }
