@@ -7,7 +7,6 @@ public class Main {
        input.analize();
     }
 
-
     public static class Input {
         int nrOfRows;
         char[][] seats;
@@ -127,10 +126,7 @@ public class Main {
                     }
                     display();
                 }
-
-
             }
-
         }
 
 
@@ -182,7 +178,7 @@ public class Main {
                 }
 
             }
-            return st;
+            return st.trim();
 
         }
 
