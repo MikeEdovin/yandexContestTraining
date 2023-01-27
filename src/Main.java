@@ -1,26 +1,34 @@
 import java.io.*;
-import java.util.*;
 public class Main {
     public static void main(String[] args) {
-        int count = 0;
-        String J, S = null;
+        System.out.println(makeEqual());
+    }
+
+    public static int makeEqual(){
+        String J,S;
         int n;
         int[]initVolumes;
         try {
             BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
             J = reader.readLine();
             S = reader.readLine();
-            System.out.println("J "+J+" S "+S);
             n=Integer.parseInt(J);
             initVolumes=new int[n];
-            for(int i=0;i<S.length();i++){
-                initVolumes[i]=S.charAt(i);
-                System.out.println(initVolumes[i]);
+            String[] in = S.split(" ");
+            for(int i=0;i<in.length;i++){
+                initVolumes[i]=Integer.parseInt(in[i]);
             }
-
-
+            for(int j=0;j< initVolumes.length-1;j++) {
+                if (initVolumes[j] > initVolumes[j+1]) {
+                    return -1;
+                }
+            }
+           return initVolumes[initVolumes.length-1]- initVolumes[0];
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return -1;
     }
+
+
 }
