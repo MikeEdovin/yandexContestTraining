@@ -1,210 +1,101 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
 public class Main {
 
     public static void main(String[] args) {
        Input input=new Input();
        input.getInput();
-       input.analize();
+       input.analyze();
     }
 
     public static class Input {
-        int nrOfRows;
-        char[][] seats;
-        int nrOfGroups;
-        String[][] groups;
+        int arraySize;
+        int setSize;
+        int[] array;
+        Stack<int[]> setOfSet;
+        List<int[]> sets;
+
 
         public void getInput() {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
-                nrOfRows = Integer.parseInt(reader.readLine());
-                seats = new char[nrOfRows][7];
-                for (int i = 0; i < nrOfRows; i++) {
-                    String row = reader.readLine();
-                    for (int j = 0; j < 7; j++) {
-                        seats[i][j] = row.charAt(j);
-                    }
+                String firstString =reader.readLine();
+                String[] in=firstString.split(" ");
+                arraySize=Integer.parseInt(in[0]);
+                setSize=Integer.parseInt(in[1]);
+                array=new int[arraySize];
+                String secondString= reader.readLine();
+                String [] arrayIn=secondString.split(" ");
+                for(int i=0;i<arrayIn.length;i++){
+                    array[i]=Integer.parseInt(arrayIn[i]);
                 }
-                nrOfGroups = Integer.parseInt(reader.readLine());
-                groups = new String[nrOfGroups][3];
-                for (int k = 0; k < nrOfGroups; k++) {
-                    String groupString = reader.readLine();
-                    String[] in = groupString.split(" ");
-                    for (int l = 0; l < 3; l++) {
-                        groups[k][l] = in[l];
-                    }
-                }
+                setOfSet=new Stack<>();
+
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        public void analize() {
-            for (int i = 0; i < nrOfGroups; i++) {
-                String[] group = groups[i];
-                int quantity = Integer.parseInt(group[0]);
-                String side = group[1];
-                String preference = group[2];
-                if (side.equals("left") && preference.equals("aisle")) {
-                    for (int j = 0; j < nrOfRows; j++) {
-                        if (seats[j][2] == '.' && quantity == 1) {
-                            seats[j][2] = 'X';
-                            break;
-                        }
-                        if (seats[j][2] == '.' && seats[j][1] == '.' && quantity == 2) {
-                            seats[j][2] = 'X';
-                            seats[j][1] = 'X';
-                            break;
-                        }
-                        if (seats[j][2] == '.' && seats[j][1] == '.' && seats[j][0] == '.' && quantity == 3) {
-                            seats[j][2] = 'X';
-                            seats[j][1] = 'X';
-                            seats[j][0] = 'X';
-                            break;
-                        }
-                    }
 
-                    display();
+
+        public void analyze() {
+            int[] set=new int[setSize];
+            sets=new LinkedList<>();
+            getAllSets(array,set,0,arraySize,0,setSize);
+            //display();
+        }
+
+            public void getAllSets(int[] array,int[]set,int start, int end,int index,int setSize){
+
+            if(index==setSize){
+                setOfSet.push(set);
+                sets.add(set);
+                display();
+
+/*
+                int[]item=setOfSet.peek();
+                for (int j:item) {
+                    System.out.print(j + " ");
                 }
-                if (side.equals("left") && preference.equals("window")) {
-                    for (int j = 0; j < nrOfRows; j++) {
-                        if (seats[j][0] == '.' && quantity == 1) {
-                            seats[j][0] = 'X';
-                            break;
-                        }
-                        if (seats[j][0] == '.' && seats[j][1] == '.' && quantity == 2) {
-                            seats[j][0] = 'X';
-                            seats[j][1] = 'X';
-                            break;
-                        }
-                        if (seats[j][0] == '.' && seats[j][1] == '.' && seats[j][2] == '.' && quantity == 3) {
-                            seats[j][2] = 'X';
-                            seats[j][1] = 'X';
-                            seats[j][0] = 'X';
-                            break;
-                        }
-                    }
-                    display();
-                }
-                if (side.equals("right") && preference.equals("aisle")) {
-                    for (int j = 0; j < nrOfRows; j++) {
-                        if (seats[j][4] == '.' && quantity == 1) {
-                            seats[j][4] = 'X';
-                            break;
-                        }
-                        if (seats[j][4] == '.' && seats[j][5] == '.' && quantity == 2) {
-                            seats[j][4] = 'X';
-                            seats[j][5] = 'X';
-                            break;
-                        }
-                        if (seats[j][4] == '.' && seats[j][5] == '.' && seats[j][6] == '.' && quantity == 3) {
-                            seats[j][4] = 'X';
-                            seats[j][5] = 'X';
-                            seats[j][6] = 'X';
-                            break;
-                        }
-                    }
-                    display();
-                }
-                if (side.equals("right") && preference.equals("window")) {
-                    for (int j = 0; j < nrOfRows; j++) {
-                        if (seats[j][6] == '.' && quantity == 1) {
-                            seats[j][6] = 'X';
-                            break;
-                        }
-                        if (seats[j][6] == '.' && seats[j][5] == '.' && quantity == 2) {
-                            seats[j][6] = 'X';
-                            seats[j][5] = 'X';
-                            break;
-                        }
-                        if (seats[j][6] == '.' && seats[j][5] == '.' && seats[j][4] == '.' && quantity == 3) {
-                            seats[j][6] = 'X';
-                            seats[j][5] = 'X';
-                            seats[j][4] = 'X';
-                            break;
-                        }
-                    }
-                    display();
-                }
+                System.out.println("");
+*/
+                return;
+            }
+            for(int i=start;i<end;i++){
+                set[index]=array[i];
+                getAllSets(array,set,i+1,end,index+1,setSize);
             }
         }
 
 
         public void display() {
-            if (containsX()) {
-                System.out.println("Passengers can take seats: " + getSeats());
-                for (int i = 0; i < nrOfRows; i++) {
-                    for (int j = 0; j < 7; j++) {
-                        System.out.print(seats[i][j]);
-                    }
-                    System.out.println();
-                }
-                updateSeats();
-            } else {
-                System.out.println("Cannot fulfill passengers requirements");
-            }
-        }
+            System.out.print("display ");
+/*
+            while(!setOfSet.isEmpty()) {
+                int[] item = setOfSet.pop();
 
-        public boolean containsX() {
-            for (int i = 0; i < nrOfRows; i++) {
-                for (int j = 0; j < 7; j++) {
-                    if (seats[i][j] == 'X') {
-                        return true;
-                    }
+                for (int i : item) {
+                    System.out.print(i + " ");
                 }
             }
-            return false;
-        }
+*/
 
-        public void updateSeats() {
-            for (int i = 0; i < nrOfRows; i++) {
-                for (int j = 0; j < 7; j++) {
-                    if (seats[i][j] == 'X') {
-                        seats[i][j] = '#';
-                    }
-                }
-            }
-        }
+          for(int[] item:sets){
+              for (int i : item) {
+                  System.out.print(i + " ");
+              }
+          }
 
-        public String getSeats() {
-            String st = "";
-            for (int i = 0; i < nrOfRows; i++) {
-                for (int j = 0; j < 7; j++) {
-                    if (seats[i][j] == 'X') {
-                        String row = String.valueOf(i + 1);
-                        String place = getPlace(j);
-                        st = st + row + place+" ";
-                    }
-                }
-
-            }
-            return st.trim();
 
         }
 
-        public String getPlace(int num) {
-            if (num == 0) {
-                return "A";
-            }
-            if (num == 1) {
-                return "B";
-            }
-            if (num == 2) {
-                return "C";
-            }
-            if (num == 4) {
-                return "D";
-            }
-            if (num == 5) {
-                return "E";
-            }
-            if (num == 6) {
-                return "F";
-            }
-            else{
-                return "";
-            }
-        }
+
+
     }
 }
 
