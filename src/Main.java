@@ -1,15 +1,56 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-       Input input=new Input();
-       input.getInput();
-       input.analyze();
+        Input input = new Input();
+        input.getInput();
+        input.analyze();
+
+        public void analyze () {
+            int[] set = new int[setSize];
+            sets = new HashSet<>();
+            getAllSets(array, set, 0, arraySize, 0, setSize, sets);
+
+            //display();
+        }
+
+        public void getAllSets ( int[] array, int[] set, int start, int end, int index, int setSize, Set<int[]>sets){
+
+            if (index == setSize) {
+                //setOfSet.push(set);
+                sets.add(set);
+                display();
+                return;
+            }
+            for (int i = start; i < end; i++) {
+                set[index] = array[i];
+                getAllSets(array, set, i + 1, end, index + 1, setSize, sets);
+            }
+        }
+
+
+        public void display () {
+            System.out.println("display ");
+/*
+            while(!setOfSet.isEmpty()) {
+                int[] item = setOfSet.pop();
+
+                for (int i : item) {
+                    System.out.print(i + " ");
+                }
+            }
+*/
+
+            for (int[] item : sets) {
+                for (int i : item) {
+                    System.out.print(i + " ");
+                }
+                System.out.println();
+            }
+
+        }
     }
 
     public static class Input {
@@ -17,7 +58,7 @@ public class Main {
         int setSize;
         int[] array;
         Stack<int[]> setOfSet;
-        List<int[]> sets;
+        Set<int[]> sets;
 
 
         public void getInput() {
@@ -43,53 +84,6 @@ public class Main {
 
 
 
-        public void analyze() {
-            int[] set=new int[setSize];
-            sets=new LinkedList<>();
-            getAllSets(array,set,0,arraySize,0,setSize);
-            //display();
-        }
-
-            public void getAllSets(int[] array,int[]set,int start, int end,int index,int setSize){
-
-            if(index==setSize){
-                setOfSet.push(set);
-                sets.add(set);
-                display();
-
-/*
-                int[]item=setOfSet.peek();
-                for (int j:item) {
-                    System.out.print(j + " ");
-                }
-                System.out.println("");
-*/
-                return;
-            }
-            for(int i=start;i<end;i++){
-                set[index]=array[i];
-                getAllSets(array,set,i+1,end,index+1,setSize);
-            }
-        }
-
-
-        public void display() {
-            System.out.print("display ");
-/*
-            while(!setOfSet.isEmpty()) {
-                int[] item = setOfSet.pop();
-
-                for (int i : item) {
-                    System.out.print(i + " ");
-                }
-            }
-*/
-
-          for(int[] item:sets){
-              for (int i : item) {
-                  System.out.print(i + " ");
-              }
-          }
 
 
         }
@@ -97,7 +91,7 @@ public class Main {
 
 
     }
-}
+
 
 
 
